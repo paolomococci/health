@@ -38,12 +38,8 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/swagger-ui/**",
-                "/v3/api-docs/**",
-                "/swagger-ui.html",
                 "/h2-console/**",
-                "/api/auth/login",
-                "/static/**")
+                "/api/auth/login")
             .permitAll()
             .anyRequest().authenticated())
         // Adds the JWT filter before the standard username/password filter.
