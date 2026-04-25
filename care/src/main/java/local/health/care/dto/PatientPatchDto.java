@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *                                record - a concise, immutable data carrier.
  */
 @JsonInclude(Include.NON_NULL)
-public record PatientPatchDTO(
+public record PatientPatchDto(
                 // Optional field - patient’s name.
                 Optional<String> name,
 

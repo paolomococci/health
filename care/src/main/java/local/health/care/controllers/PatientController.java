@@ -1,7 +1,7 @@
 package local.health.care.controllers;
 
 import local.health.care.dto.PatientDto;
-import local.health.care.dto.PatientPatchDTO;
+import local.health.care.dto.PatientPatchDto;
 import local.health.care.mappers.PatientMapper;
 import local.health.care.models.Patient;
 import local.health.care.services.PatientService;
@@ -97,7 +97,7 @@ public class PatientController {
   @PatchMapping("/{id}")
   public ResponseEntity<PatientDto> patch(
       @PathVariable Long id,
-      @Valid @RequestBody PatientPatchDTO patchDTO) {
+      @Valid @RequestBody PatientPatchDto patchDTO) {
 
     // Apply the patch and get the updated entity.
     Patient updated = patientService.patch(id, patchDTO);

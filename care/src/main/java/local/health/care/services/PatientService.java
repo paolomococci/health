@@ -1,7 +1,7 @@
 package local.health.care.services;
 
 import local.health.care.dto.PatientDto;
-import local.health.care.dto.PatientPatchDTO;
+import local.health.care.dto.PatientPatchDto;
 import local.health.care.models.Patient;
 import local.health.care.repositories.PatientRepository;
 import local.health.care.exceptions.ResourceNotFoundException;
@@ -99,7 +99,7 @@ public class PatientService {
    * @return
    */
   @Transactional
-  public Patient patch(Long id, PatientPatchDTO dto) {
+  public Patient patch(Long id, PatientPatchDto dto) {
     // Retrieve the target patient.
     Patient patient = get(id);
 
