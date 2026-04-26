@@ -232,6 +232,22 @@ http GET http://localhost:8080/api/patients/1 \
     "Authorization: Bearer $TOKEN"
 ```
 
+Search by name:
+
+```shell
+http GET http://localhost:8080/api/patients?name=Betty \
+    "Authorization: Bearer $TOKEN"
+```
+
+will return the data of the newly created patient, whereas the following request:
+
+```shell
+http GET http://localhost:8080/api/patients?name=John \
+    "Authorization: Bearer $TOKEN"
+```
+
+it will return an empty array.
+
 Modifications using the verb PUT:
 
 ```shell
