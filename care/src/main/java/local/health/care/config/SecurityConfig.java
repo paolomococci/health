@@ -39,7 +39,8 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
                 "/h2-console/**",
-                "/api/auth/login")
+                "/api/auth/login",
+                "/check")
             .permitAll()
             .anyRequest().authenticated())
         // Adds the JWT filter before the standard username/password filter.
