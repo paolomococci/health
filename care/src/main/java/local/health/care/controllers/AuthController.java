@@ -26,7 +26,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     /**
-     * Constructor‑based injection of the two dependencies.
+     * Constructor-based injection of the two dependencies.
      * 
      * @param jwtUtil
      * @param authenticationManager
@@ -53,7 +53,7 @@ public class AuthController {
         String username = body.get("username");
         String password = body.get("password");
 
-        // Quick guard‑clause: both fields must be present.
+        // Quick guard-clause: both fields must be present.
         if (username == null || password == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "Username and password are required!"));

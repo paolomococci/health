@@ -20,7 +20,7 @@ public record PatientPatchDto(
                 // Optional field - patient’s name.
                 Optional<String> name,
 
-                // Explicitly name the JSON property Format LocalDate as “yyyy-MM-dd” in JSON
+                // Explicitly name the JSON property Format LocalDate as "yyyy-MM-dd" in JSON
                 // optional birthdate.
                 @JsonProperty("birthdate") @JsonFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> birthdate,
 

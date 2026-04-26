@@ -17,7 +17,7 @@ public class Patient {
   /**
    * @Id marks the primary key field.
    * @GeneratedValue(strategy = GenerationType.IDENTITY) lets the database
-   *                          generate the key using an auto‑increment column.
+   *                          generate the key using an auto-increment column.
    */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Patient {
   private String gender;
 
   /**
-   * @OneToMany defines a one‑to‑many relationship to Episode, (to be understood
+   * @OneToMany defines a one-to-many relationship to Episode, (to be understood
    *            as a clinical episode).
    *            mappedBy = "patient" tells JPA that the foreign key lives on the
    *            Episode side (the owning side).
@@ -90,7 +90,7 @@ public class Patient {
 
   /**
    * Helper method to add an Episode to the patient's collection.
-   * It also sets the back‑reference on the Episode side, ensuring both sides of
+   * It also sets the back-reference on the Episode side, ensuring both sides of
    * the relationship stay in sync.
    * 
    * @param episode

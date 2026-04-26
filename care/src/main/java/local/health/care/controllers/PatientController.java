@@ -69,7 +69,7 @@ public class PatientController {
     if (name == null || name.isBlank()) {
       return ResponseEntity.ok(patientService.searchByName(""));
     }
-    // Perform a case‑insensitive search.
+    // Perform a case-insensitive search.
     return ResponseEntity.ok(patientService.searchByName(name));
   }
 

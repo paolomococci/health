@@ -53,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
       try {
         // Parse the token into a Claims object (throws if invalid).
         Claims claims = jwtUtil.parse(token);
-        // The subject of the token is conventionally the username/user‑id.
+        // The subject of the token is conventionally the username/user-id.
         String username = claims.getSubject();
         // If a username was present, build an Authentication object with no credentials
         // and no granted authorities.
@@ -68,7 +68,7 @@ public class JwtFilter extends OncePerRequestFilter {
       }
     }
     // Continue with the rest of the filter chain - the request will eventually hit
-    // the actual controller (or be blocked by Spring‑Security).
+    // the actual controller (or be blocked by Spring-Security).
     filterChain.doFilter(request, response);
   }
 }

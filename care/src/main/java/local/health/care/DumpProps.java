@@ -42,11 +42,11 @@ public class DumpProps implements CommandLineRunner {
   /**
    * Confirm that I am overriding the single method from the "CommandLineRunner"
    * interface.
-   * `String... args` - Receives the same command‑line arguments that were passed
+   * `String... args` - Receives the same command-line arguments that were passed
    * to `main`.
    * `@NonNull` - Indicates that `args` should never be `null`. It’s a hint for
    * static analysis tools.
-   * The ellipsis (`...`) is a *var‑args* parameter; it is actually an array
+   * The ellipsis (`...`) is a *var-args* parameter; it is actually an array
    * internally.
    */
   @Override

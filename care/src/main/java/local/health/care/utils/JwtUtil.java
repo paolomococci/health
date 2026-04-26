@@ -28,7 +28,7 @@ public class JwtUtil {
 
   // Constructor receives two properties:
   // - `${app.jwt.secret}` (required) - the secret key, either raw or
-  // Base64‑encoded;
+  // Base64-encoded;
   // - `${app.jwt.expiration-ms}` (optional, defaults to 86400000ms = 24h)
   public JwtUtil(@Value("${app.jwt.secret}") String secretConfig,
       @Value("${app.jwt.expiration-ms:86400000}") long expirationMs) {
@@ -50,12 +50,12 @@ public class JwtUtil {
     }
 
     byte[] keyBytes;
-    // Determine if the supplied secret is already Base64‑encoded.
+    // Determine if the supplied secret is already Base64-encoded.
     if (isBase64(secretConfig)) {
       // Decode the Base64 string to raw bytes.
       keyBytes = Decoders.BASE64.decode(secretConfig);
     } else {
-      // Treat the secret as a plain UTF‑8 string.
+      // Treat the secret as a plain UTF-8 string.
       keyBytes = secretConfig.getBytes(StandardCharsets.UTF_8);
     }
 
