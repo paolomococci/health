@@ -114,6 +114,15 @@ and then add it to file `application.yaml`.
 
 ## run from shell
 
+To view the list of available tasks and get some explanatory information about the commands:
+
+```shell
+./gradlew tasks
+./gradlew help --task clean
+./gradlew help --task dependencies
+./gradlew help --task bootJar
+```
+
 Clean, test and build:
 
 ```shell
