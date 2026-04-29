@@ -239,4 +239,4 @@ docker run --user $(id -u):$(id -g) \
 
 These comments should help anyone read this notes and understand exactly what each Docker command is doing.
 
-__Please note: in my case the execution environments, ('./care/src/main/resources/application*.yaml) are defined almost identically, but everything can be customized.__
+__Please note: in my case the execution environments, ('./care/src/main/resources/application*.yaml') are defined almost identically, but everything can be customized.__
