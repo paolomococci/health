@@ -17,7 +17,7 @@ import java.util.Collections;
  * JwtFilter is a Spring component that intercepts every HTTP request thanks to
  * OncePerRequestFilter and attempts to extract a JWT from the `Authorization`
  * header.
- * If a valid token is found, it populates Spring Security’s
+ * If a valid token is found, it populates Spring Security's
  * SecurityContextHolder so that downstream code can rely on
  * org.springframework.security.core.Authentication being available.
  */

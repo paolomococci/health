@@ -23,7 +23,7 @@ public class Patient {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // Patient’s name.
+  // Patient's name.
   private String name;
 
   // Date of birth.

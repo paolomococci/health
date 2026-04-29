@@ -172,7 +172,13 @@ To view the dependency configuration:
 
 **Please note that the names used below are fictional and used for illustrative purposes only; therefore, they do not refer to anyone or anything.**
 
-### illegal commands
+First of all I can do a first check with the following command:
+
+```shell
+http GET http://localhost:8080/check
+```
+
+### commands that must return a forbidden state
 
 The following commands should return an HTTP status code of 403, Forbidden:
 

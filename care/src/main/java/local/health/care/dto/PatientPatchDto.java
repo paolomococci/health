@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonInclude(Include.NON_NULL)
 public record PatientPatchDto(
-                // Optional field - patient’s name.
+                // Optional field - patient's name.
                 Optional<String> name,
 
                 // Explicitly name the JSON property Format LocalDate as "yyyy-MM-dd" in JSON

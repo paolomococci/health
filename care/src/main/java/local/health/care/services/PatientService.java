@@ -114,7 +114,7 @@ public class PatientService {
   }
 
   /**
-   * Delegate to the repository’s delete operation.
+   * Delegate to the repository's delete operation.
    * This method is not marked @Transactional so it inherits the class-level
    * transaction (read-only).
    * Spring will automatically start a write transaction for deleteById() because

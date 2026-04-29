@@ -1,0 +1,35 @@
+# Build and output folders:
+build/
+bin/
+
+# Development data and DB:
+data/
+
+# Documentation and project files not required at runtime:
+*.md
+NOTES.md
+README.md
+
+# Version control - do not include the repository itself:
+.git/
+.gitignore
+.gitattributes
+
+# Specific scripts:
+gradlew.bat
+*.iml
+.idea/
+.vscode/
+
+# Logs, temporary files, and backups:
+*.log
+*.tmp
+tmp/
+*.swp
+*~
+
+# Compiled artifacts that can be recreated:
+*.class
+*.jar
+*.war
+*.ear

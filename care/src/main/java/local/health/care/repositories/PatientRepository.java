@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @Repository tells Spring to create a bean that implements this interface and
- *             to handle translation of persistence exceptions into Spring’s
+ *             to handle translation of persistence exceptions into Spring's
  *             data-exception hierarchy.
  */
 @Repository

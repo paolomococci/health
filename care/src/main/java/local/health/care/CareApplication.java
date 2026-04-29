@@ -16,7 +16,7 @@ public class CareApplication {
 	 * This static method performs several important tasks:
 	 * - creates an `ApplicationContext` (usually a
 	 * `ConfigurableApplicationContext`);
-	 * - loads bean definitions from the classpath and applies Spring Boot’s
+	 * - loads bean definitions from the classpath and applies Spring Boot's
 	 * auto-configuration rules;
 	 * - performs an early startup (e.g., logging configuration, health checks);
 	 * - starts the embedded servlet container if the application is a web

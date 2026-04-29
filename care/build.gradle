@@ -46,3 +46,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	// Remove version:
+	archiveVersion.set('')
+	// Set the base name of the JAR:
+	archiveBaseName.set('app')
+	// Optionally, set an empty classifier:
+	archiveClassifier.set('')
+}
