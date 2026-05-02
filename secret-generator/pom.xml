@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 1. Mandatory. -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>local.example</groupId>
+    <artifactId>secret-generator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <!-- 2. Java version. -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!-- 3. Dependencies. -->
+    <dependencies>
+        <!-- 3.1 Necessary. -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.13.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- 3.2 Optional. -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.13.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- 3.3 Any other dependencies. -->
+    </dependencies>
+
+    <!-- 4. Optional plugins for running classes with main. -->
+    <build>
+        <plugins>
+            <!-- 4.1. Compiler plugin. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+            </plugin>
+            <!-- 4.2 Exec plugin to run classes with main. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.6.3</version>
+                <configuration>
+                    <mainClass>local.example.secret.generator.SecretGenerator</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
