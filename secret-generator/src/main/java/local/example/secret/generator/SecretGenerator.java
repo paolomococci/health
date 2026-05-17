@@ -16,6 +16,10 @@ package local.example.secret.generator;
 import javax.crypto.KeyGenerator;
 // `SecretKey` represents the key that will be generated.
 import javax.crypto.SecretKey;
+// JsonMapper is a Jackson helper that makes it easy to read/write JSON using a fully-featured, type-safe API.
+import tools.jackson.databind.json.JsonMapper;
+// ObjectNode represents a JSON object node, a mutable map of key/value pairs that you can build up programmatically before serializing.
+import tools.jackson.databind.node.ObjectNode;
 // `SecureRandom` provides a cryptographically strong random number generator.
 import java.security.SecureRandom;
 // `Base64` is a utility class for encoding and decoding base-64 data.
@@ -58,7 +62,15 @@ public class SecretGenerator {
         // `encodeToString` converts the byte array into a readable Base64 string.
         // The string is stored in the variable `base64`.
         String base64 = Base64.getEncoder().encodeToString(key.getEncoded());
-        // Outputs the Base64 representation of the key to standard output.
-        System.out.println(base64);
+
+        // Build a simple JSON object that contains a single field.
+        JsonMapper mapper = JsonMapper.builder().build();
+        // Create an empty ObjectNode and add the secretKey property with the Base64 value.
+        ObjectNode jsonObjNode = mapper.createObjectNode().put("secretKey", base64);
+        // Convert the ObjectNode into a JSON string.
+        String jsonString = mapper.writeValueAsString(jsonObjNode);
+
+        // Print the resulting JSON string (Base64-encoded key) to the console.
+        System.out.println(jsonString);
     }
 }
