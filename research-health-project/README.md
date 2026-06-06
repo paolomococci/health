@@ -234,7 +234,7 @@ where X `payload.json` is:
 Read all articles:
 
 ```shell
-curl -X POST http://localhost:8080/graphql -H "Content-Type: application/json" 
+curl -X POST http://localhost:8080/graphql -H "Content-Type: application/json"
   -H "Connection: close" -d '{"query":"query { articles { id title subject content publishedDate researchers { id name } reviewers { id name } reviews { id title decision } } }"}'
 
 http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query { articles { id title subject content publishedDate researchers { id name } reviewers { id name } reviews { id title decision } } }"'
