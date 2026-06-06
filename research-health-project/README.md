@@ -1,4 +1,4 @@
-# health-care `research` project
+# `research-health-project`
 
 ![](./src/main/resources/static/images/research-1200x627.png)
 
@@ -153,3 +153,472 @@ and simply:
 ```shell
 convert -background none research-1200x627.png -resize 64x64 research-64.png
 ```
+
+## how to test endpoint from shell thanks `cURL` and `HTTPie`
+
+First, from a shell, execute the following commands:
+
+```shell
+cd project/path/research-health-project/logs
+tail --follow --lines=100 app.log
+```
+
+In a new shell:
+
+```shell
+cd project/path/research-health-project
+./mvnw spring-boot:run
+```
+
+Now I need to open another shell from where I can send commands to test the GraphQL API.
+
+### articles
+
+Read all articles with cURL:
+
+```bash
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{"query":"{ articles { id title subject content publishedDate researchers {id name} reviewers {id name} reviews {id title} } }"}'
+```
+
+Read by ID:
+
+```bash
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{"query": "query{ article(id:\"12\"){ id title subject content publishedDate researchers{id name} reviewers{id name} reviews{id title} } }"}'
+```
+
+Read by ID with variable:
+
+```shell
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{
+        "query": "query($id: ID!) { article(id: $id) { id title subject content publishedDate researchers{id name} reviewers{id name} reviews{id title} } }",
+        "variables": { "id": "12" }
+      }'
+```
+
+Read by ID with `HTTPie`:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) { article(id: $id) { id } }" ' variables:='{"id":"12"}'
+```
+
+to request more details:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) { article(id: $id) { id title subject content publishedDate researchers{id name} reviewers{id name} reviews{id title} } }" ' variables:='{"id":"12"}'
+```
+
+or using a payload file:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close < payload.json
+```
+
+where X `payload.json` is:
+
+```json
+{
+  "query": "query($id:ID!){ article(id:$id){ id } }",
+  "variables": { "id": "10" }
+}
+```
+
+Read all articles:
+
+```shell
+curl -X POST http://localhost:8080/graphql -H "Content-Type: application/json" 
+  -H "Connection: close" -d '{"query":"query { articles { id title subject content publishedDate researchers { id name } reviewers { id name } reviews { id title decision } } }"}'
+
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query { articles { id title subject content publishedDate researchers { id name } reviewers { id name } reviews { id title decision } } }"'
+```
+
+Create a new article with `createArticle` mutation:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateArticle($input: ArticleInput!) {
+     createArticle(input: $input) {
+       id
+       title
+       subject
+       content
+       publishedDate
+       researchers { id name }
+       reviewers   { id name }
+       reviews     { id rating decision }
+     }
+   }' variables:='{
+     "input": {
+       "title": "Robotic Assistance in Minimally Invasive Orthopedic Surgery",
+       "subject": "Orthopedics",
+       "content": "This paper evaluates the safety and functional outcomes of robotic-guided total knee arthroplasty compared to conventional instrumentation in a randomized cohort of 150 patients.",
+       "publishedDate": "2026-04-01",
+       "researcherIds": [2,4],
+       "reviewerIds": [3]
+     }
+   }'
+```
+
+To read the latest article by ID:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) {article(id: $id) { id title subject content publishedDate researchers { id name } reviewers { id name } reviews { id title decision } }}"' variables:='{"id":13}'
+```
+
+To update the latest article:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation UpdateArticle($id: ID!, $input: ArticlePatch!) {
+    updateArticle(id: $id, input: $input) {
+      id
+      title
+      subject
+      content
+      publishedDate
+      researchers { id name }
+      reviewers   { id name }
+      reviews     { id rating decision }
+    }
+  }' variables:='{
+    "id": "13",
+    "input": {
+      "title": "Robotic Assistance in Minimally Invasive Orthopedic Surgery: Updated Findings",
+      "subject": "Orthopedics (updated)",
+      "content": "The updated manuscript now includes 5-year follow-up data for 120 patients, demonstrating comparable revision rates and improved proprioception scores with robotic guidance.",
+      "publishedDate": "2026-04-15",
+      "researcherIds": [1,5],
+      "reviewerIds": [7]
+    }
+  }'
+```
+
+To delete the article just updated:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation DeleteArticle($id: ID!) { deleteArticle(id: $id) }' variables:='{"id": "13"}'
+```
+
+### reviews
+
+To read all the reviews:
+
+```bash
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{"query":"{ reviews { id content rating } }"}'
+
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query {reviews { id content rating }}"'
+```
+
+To create a new review with `createReview` mutation:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateReview($input: ReviewInput!) {
+    createReview(input: $input) {
+      id
+      title
+      content
+      rating
+      decision
+    }
+  }' variables:='{
+    "input": {
+      "title": "Some title awesome",
+      "content": "Excellent manuscript, well-structured.",
+      "rating": 5,
+      "decision": "ACCEPT",
+      "reviewerId": "2",
+      "articleId": "1"
+    }
+  }'
+```
+
+To get the review by ID:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) {review(id: $id) { id content rating decision article {id title} reviewer {id name}}}"'   variables:='{"id":21}'
+```
+
+To update the latest review:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation UpdateReview($id: ID!, $patch: ReviewPatch!) {
+    updateReview(id: $id, patch: $patch) {
+      id title content rating decision
+      reviewer { id name }
+      article  { id title }
+    }
+  }' variables:='{"id":"21","patch":{"title":"Some new title","content":"New content","rating":1,"decision":"REJECT","reviewerId":3,"articleId":5}}'
+```
+
+To delete the review just updated:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation DeleteReview($id: ID!) {
+    deleteReview(id: $id)
+  }' variables:='{"id": "13"}'
+```
+
+### researchers
+
+Read all:
+
+```bash
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{"query":"{ researchers { id name emails title affiliation } }"}'
+
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query {researchers { id name emails title affiliation }}"'
+```
+
+Create a new researcher with `createResearcher` mutation:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateResearcher($input: ResearcherInput!) {
+    createResearcher(input: $input) {
+      id
+      name
+      title
+      affiliation
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. John Doe",
+      "title": "Professor",
+      "affiliation": "Universal Health Consortium"
+    }
+  }'
+```
+
+Create researcher with email address:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateResearcher($input: ResearcherInput!) {
+    createResearcher(input: $input) {
+      id
+      name
+      emails
+      title
+      affiliation
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. John Doe",
+      "emails": ["dr.john.doe@internationalhealthnetwork.local"],
+      "title": "Professor",
+      "affiliation": "International Health & Surgery Network"
+    }
+  }'
+```
+
+Create researcher with email address and articles:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateResearcher($input: ResearcherInput!) {
+    createResearcher(input: $input) {
+      id
+      name
+      emails
+      title
+      affiliation
+      articles { id title }
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. John Doe",
+      "emails": ["dr.john.doe@internationalhealthnetwork.local"],
+      "title": "Professor",
+      "affiliation": "International Health & Surgery Network",
+      "articleIds": [3,4]
+    }
+  }'
+```
+
+To get the researcher by ID:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) {researcher(id: $id) { id name emails title affiliation articles {id title }}}"' variables:='{"id":15}'
+```
+
+To update the latest researcher:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation UpdateResearcher($id: ID!, $patch: ResearcherPatch!) {
+    updateResearcher(id: $id, patch: $patch) {
+      id
+      name
+      emails
+      title
+      affiliation
+      articles { id title }
+    }
+  }' variables:='{
+    "id":"15",
+    "patch": {
+      "name": "Dr. John Doe",
+      "emails": ["john.doe@universalhealthconsortium.local"],
+      "title": "Professor",
+      "affiliation": "Universal Health Consortium",
+      "articleIds": [8,1]
+    }
+  }'
+```
+
+To delete the researcher just updated:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation DeleteResearcher($id: ID!) { deleteResearcher(id: $id) }' variables:='{"id": "15"}'
+```
+
+### reviewers
+
+Read all:
+
+```bash
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -H "Connection: close" \
+  -d '{"query":"{ reviewers { id name emails title affiliation } }"}'
+
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query {reviewers { id title name affiliation emails attendedArticles { id title } reviews { id title }}}"'
+```
+
+Create a new reviewer with `createReviewer` mutation:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateReviewer($input: ReviewerInput!) {
+    createReviewer(input: $input) {
+      id
+      title
+      name
+      affiliation
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. Bobby Doe",
+      "title": "Professor",
+      "affiliation": "Universal Health Consortium"
+    }
+  }'
+```
+
+Create reviewer with email address:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateReviewer($input: ReviewerInput!) {
+    createReviewer(input: $input) {
+      id
+      title
+      name
+      affiliation
+      emails
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. Bobby Doe",
+      "title": "Professor",
+      "affiliation": "International Health & Surgery Network",
+      "emails": ["dr.bobby.doe@internationalhealthnetwork.local"]
+    }
+  }'
+```
+
+Create reviewer with email address and articles:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateReviewer($input: ReviewerInput!) {
+    createReviewer(input: $input) {
+      id
+      title
+      name
+      affiliation
+      emails
+      attendedArticles { id title }
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. Bobby Doe",
+      "title": "Professor",
+      "affiliation": "International Health & Surgery Network",
+      "emails": ["dr.bobby.doe@internationalhealthnetwork.local"],
+      "attendedArticleIds": [5, 8]
+    }
+  }'
+```
+
+Create reviewer with email address, articles and reviews:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation CreateReviewer($input: ReviewerInput!) {
+    createReviewer(input: $input) {
+      id
+      title
+      name
+      affiliation
+      emails
+      attendedArticles { id title }
+      reviews { id title }
+    }
+  }' variables:='{
+    "input": {
+      "name": "Dr. Bobby Doe",
+      "title": "Professor",
+      "affiliation": "International Health & Surgery Network",
+      "emails": ["dr.bobby.doe@internationalhealthnetwork.local"],
+      "attendedArticleIds": [5, 8],
+      "reviewIds": [21]
+    }
+  }'
+```
+
+To get the review by ID:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query:=' "query ($id: ID!) {reviewer(id: $id) { id title name affiliation emails attendedArticles { id title } reviews { id title }}}"' variables:='{"id":16}'
+```
+
+To update the latest reviewer:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation UpdateReviewer($id: ID!, $input: ReviewerInput!) {
+    updateReviewer(id: $id, input: $input) {
+      id
+      title
+      name
+      affiliation
+      emails
+      attendedArticles { id title }
+      reviews { id title }
+    }
+  }' variables:='{
+    "id":"16",
+    "input": {
+      "name": "Dr. Robert Doe",
+      "title": "Doctor",
+      "affiliation": "International Health & Surgery Network Head",
+      "emails": ["dr.robert.doe@internationalhealthnetwork.local"],
+      "attendedArticleIds": [4, 10],
+      "reviewIds": [21]
+    }
+  }'
+```
+
+To delete the reviewer just updated:
+
+```shell
+http POST http://localhost:8080/graphql Content-Type:application/json Connection:close query='mutation DeleteReviewer($id: ID!) { deleteReviewer(id: $id)
+}' variables:='{"id": "16"}'
+```
+
+## things to do
+
+This is just a sample application. There's still a lot to implement, starting with input validation and uniqueness constraints for email addresses.
