@@ -3,8 +3,8 @@ package local.health.research.inputs;
 import java.util.List;
 
 /**
- * ResearcherInput is a tiny immutable DTO used when a client
- * wants to create or update a Researcher entity.
+ * ResearcherInput is a tiny immutable DTO (Data Transfer Object) used when a
+ * client wants to create or update a Researcher entity.
  *
  * The record automatically supplies:
  * - a constructor that takes the name,
@@ -16,10 +16,10 @@ import java.util.List;
  * by the service layer and the persistence layer.
  */
 public record ResearcherInput(
-        String name,
-        List<String> emails,
-        String title,
-        String affiliation,
-        List<Long> articleIds) {
+                String name,
+                List<String> emails,
+                String title,
+                String affiliation,
+                List<Long> articleIds) {
 
 }

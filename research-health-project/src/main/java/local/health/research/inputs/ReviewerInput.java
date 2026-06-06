@@ -3,8 +3,8 @@ package local.health.research.inputs;
 import java.util.List;
 
 /**
- * ReviewerInput is an immutable DTO that represents the minimal
- * data required to create or update a Reviewer entity.
+ * ReviewerInput is an immutable DTO (Data Transfer Object) that represents the
+ * minimal data required to create or update a Reviewer entity.
  *
  * Because it's a record, Java automatically generates:
  * - a constructor that accepts the name,
@@ -16,11 +16,11 @@ import java.util.List;
  * persist it via the DAO.
  */
 public record ReviewerInput(
-        String title,
-        String name,
-        String affiliation,
-        List<String> emails,
-        List<Long> attendedArticleIds,
-        List<Long> reviewIds) {
+                String title,
+                String name,
+                String affiliation,
+                List<String> emails,
+                List<Long> attendedArticleIds,
+                List<Long> reviewIds) {
 
 }

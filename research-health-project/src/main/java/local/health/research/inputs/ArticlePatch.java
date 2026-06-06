@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * ArticlePatch is a DTO that represents a *partial* update of an Article.
+ * ArticlePatch is a DTO (Data Transfer Object) that represents a *partial*
+ * update of an Article.
  * Unlike ArticleInput, the fields here are allowed to be null - a null value
  * signals that the corresponding property should be left unchanged.
  *
@@ -24,11 +25,11 @@ import java.util.List;
  * Only the subject and reviewer associations would be modified.
  */
 public record ArticlePatch(
-        String title,
-        String subject,
-        String content,
-        LocalDate publishedDate,
-        List<Long> researcherIds,
-        List<Long> reviewerIds) {
+                String title,
+                String subject,
+                String content,
+                LocalDate publishedDate,
+                List<Long> researcherIds,
+                List<Long> reviewerIds) {
 
 }

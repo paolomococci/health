@@ -3,8 +3,8 @@ package local.health.research.inputs;
 import local.health.research.models.Decision;
 
 /**
- * ReviewInput is an immutable DTO that represents the data a
- * client must supply when creating or updating a Review.
+ * ReviewInput is an immutable DTO (Data Transfer Object) that represents the
+ * data a client must supply when creating or updating a Review.
  *
  * As a record, Java automatically generates:
  * - a constructor accepting content and rating,
@@ -21,11 +21,11 @@ import local.health.research.models.Decision;
  * a Reviewer, etc.) and then persist it via the DAO layer.
  */
 public record ReviewInput(
-        String title,
-        String content,
-        Integer rating,
-        Decision decision,
-        Long  reviewerId,
-        Long  articleId) {
+                String title,
+                String content,
+                Integer rating,
+                Decision decision,
+                Long reviewerId,
+                Long articleId) {
 
 }

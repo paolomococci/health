@@ -3,8 +3,8 @@ package local.health.research.inputs;
 import local.health.research.models.Decision;
 
 /**
- * ReviewPatch is an immutable DTO that represents a *partial*
- * update of an existing Review. Unlike ReviewInput, each
+ * ReviewPatch is an immutable DTO (Data Transfer Object) that represents a
+ * partial update of an existing Review. Unlike ReviewInput, each
  * field may be null - a null value signals that the
  * corresponding property should remain unchanged.
  *
@@ -25,11 +25,11 @@ import local.health.research.models.Decision;
  * Review entity before delegating persistence to the DAO.
  */
 public record ReviewPatch(
-        String title,
-        String content,
-        Integer rating,
-        Decision decision,
-        Long  reviewerId,
-        Long  articleId) {
+                String title,
+                String content,
+                Integer rating,
+                Decision decision,
+                Long reviewerId,
+                Long articleId) {
 
 }
