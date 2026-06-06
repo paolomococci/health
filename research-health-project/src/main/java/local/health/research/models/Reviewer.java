@@ -1,6 +1,9 @@
 package local.health.research.models;
 
+import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.BatchSize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -44,6 +47,7 @@ public class Reviewer extends PeerEntity {
       // FK that points to articles.id
       inverseJoinColumns = @JoinColumn(name = "article_id"))
   // Set of articles this reviewer has processed.
+  @BatchSize(size = 20)
   private Set<Article> attendedArticles;
 
   /**
@@ -75,5 +79,6 @@ public class Reviewer extends PeerEntity {
       // Delete Review when removed from the set.
       orphanRemoval = true)
   // Reviews authored by this reviewer.
-  private Set<Review> reviews;
+  @BatchSize(size = 20)
+  private Set<Review> reviews = new HashSet<>();
 }

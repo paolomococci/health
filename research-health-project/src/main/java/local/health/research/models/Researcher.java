@@ -2,6 +2,8 @@ package local.health.research.models;
 
 import java.util.Set;
 
+import org.hibernate.annotations.BatchSize;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -31,8 +33,8 @@ public class Researcher extends PeerEntity {
    * - The join table is named researcher_article and
    * contains two foreign-key columns:
    *
-   * * researcher_id - references researchers.id
-   * * article_id - references articles.id
+   * - researcher_id - references researchers.id
+   * - article_id - references articles.id
    *
    * - The Set<Article> collection holds all articles written
    * by this researcher. Using a Set prevents duplicate
@@ -40,20 +42,20 @@ public class Researcher extends PeerEntity {
    *
    * - No cascade or orphanRemoval is specified, so standard
    * persistence behaviour applies:
-   * - Persisting a {@code Researcher} will not automatically
+   * - Persisting a Researcher will not automatically
    * persist the Article it references.
    * - Removing a Researcher will not delete the articles,
    * only the join table entries will be cleaned up.
    */
   @ManyToMany
   @JoinTable(
-    // Name of the join table.
-    name = "researcher_article", 
-    // FK to this entity (Researcher).
-    joinColumns = @JoinColumn(name = "researcher_id"), 
-    // FK to the target entity (Article).
-    inverseJoinColumns = @JoinColumn(name = "article_id")
-  )
+      // Name of the join table.
+      name = "researcher_article",
+      // FK to this entity (Researcher).
+      joinColumns = @JoinColumn(name = "researcher_id"),
+      // FK to the target entity (Article).
+      inverseJoinColumns = @JoinColumn(name = "article_id"))
   // Collection of authored articles.
+  @BatchSize(size = 20)
   private Set<Article> articles;
 }

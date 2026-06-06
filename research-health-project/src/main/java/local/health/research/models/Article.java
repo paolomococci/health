@@ -1,7 +1,10 @@
 package local.health.research.models;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.BatchSize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -49,6 +52,7 @@ public class Article extends BaseEntity {
    * the owning side.
    */
   @ManyToMany(mappedBy = "articles")
+  @BatchSize(size = 20)
   private Set<Researcher> researchers;
 
   /**
@@ -60,6 +64,7 @@ public class Article extends BaseEntity {
    * (mappedBy) and does not own the join table.
    */
   @ManyToMany(mappedBy = "attendedArticles")
+  @BatchSize(size = 20)
   private Set<Reviewer> reviewers;
 
   /**
@@ -83,5 +88,6 @@ public class Article extends BaseEntity {
    * guarantees that the database never contains orphaned reviews.
    */
   @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Review> reviews;
+  @BatchSize(size = 20)
+  private Set<Review> reviews = new HashSet<>();
 }

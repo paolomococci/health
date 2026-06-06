@@ -49,9 +49,9 @@ public class Review extends BaseEntity {
    * remove the row from the reviews table, the Reviewer
    * itself remains untouched.
    */
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   // FK column in the reviews table.
-  @JoinColumn(name = "reviewer_id")
+  @JoinColumn(name = "reviewer_id", nullable = false)
   // Reviewer that authored this review.
   private Reviewer reviewer;
 
