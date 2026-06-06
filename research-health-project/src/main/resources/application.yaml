@@ -34,11 +34,15 @@ spring:
     graphiql:
       enabled: true
 
+# Logging configuration.
 logging:
   file:
     name: logs/app.log
+    max-size: 10MB
+    max-history: 5
   level:
     root: DEBUG
     '[org.hibernate.sql]': DEBUG
     '[org.hibernate.type.descriptor.sql.BasicBinder]': TRACE
-    '[org.hibernate.tool.hbm2dll]': DEBUG
+    '[org.hibernate.tool.hbm2ddl]': DEBUG
+    '[org.springframework.graphql]': DEBUG
