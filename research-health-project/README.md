@@ -172,6 +172,8 @@ cd project/path/research-health-project
 
 Now I need to open another shell from where I can send commands to test the GraphQL API.
 
+**The following contains names, titles and other material that are purely fictitious and do not refer to anyone or anything, but are for illustrative and testing purposes only.**
+
 ### articles
 
 Read all articles with cURL:
