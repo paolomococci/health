@@ -22,7 +22,8 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        '[format_sql]': true
+        '[use_sql_comments]': true
   # H2 console.
   h2:
     console:
@@ -32,3 +33,12 @@ spring:
   graphql:
     graphiql:
       enabled: true
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: DEBUG
+    '[org.hibernate.sql]': DEBUG
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': TRACE
+    '[org.hibernate.tool.hbm2dll]': DEBUG

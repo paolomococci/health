@@ -1,0 +1,203 @@
+#  ------------------------------------------------------------------------
+#  GraphQL schema per l'API Spring-Boot "peer-review"  (Java-entities -> GraphQL-types)
+#  ------------------------------------------------------------------------
+# Scalar `Date`   ->  java.time.LocalDate  (o java.util.Date)
+# Enum `Decision`  (ACCEPT | REVISION | REJECT)
+#  ------------------------------------------------------------------------
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+# --------------------------------------
+#  Scalars
+# --------------------------------------
+scalar Date # ISO-8601 string (yyyy-MM-dd)
+# --------------------------------------
+#  Types
+# --------------------------------------
+type BaseEntity {
+  id: ID!
+  title: String
+}
+
+type PeerEntity {
+  id: ID!
+  title: String
+  name: String!
+  affiliation: String!
+  emails: [String!]!
+}
+
+# -----------------------------
+#  Article
+# -----------------------------
+type Article {
+  id: ID!
+  title: String
+  subject: String!
+  content: String!
+  publishedDate: Date!
+  researchers: [Researcher!]!
+  reviewers: [Reviewer!]!
+  reviews: [Review!]!
+}
+
+# -----------------------------
+#  Researcher
+# -----------------------------
+type Researcher {
+  id: ID!
+  title: String
+  name: String!
+  affiliation: String!
+  emails: [String!]!
+  articles: [Article!]!
+}
+
+# -----------------------------
+#  Reviewer
+# -----------------------------
+type Reviewer {
+  id: ID!
+  title: String
+  name: String!
+  affiliation: String!
+  emails: [String!]!
+  attendedArticles: [Article!]!
+  reviews: [Review!]!
+}
+
+# -----------------------------
+#  Review
+# -----------------------------
+enum Decision {
+  ACCEPT
+  REVISION
+  REJECT
+}
+
+type Review {
+  id: ID!
+  title: String
+  rating: Int!
+  content: String!
+  decision: Decision!
+  reviewer: Reviewer!
+  article: Article!
+}
+
+# --------------------------------------
+#  Inputs (for create / update)
+# --------------------------------------
+input ArticleInput {
+  title: String
+  subject: String!
+  content: String!
+  publishedDate: Date!
+  researcherIds: [ID!]
+  reviewerIds: [ID!]
+}
+
+input ArticlePatch {
+  title: String
+  subject: String
+  content: String
+  publishedDate: Date
+  researcherIds: [ID!]
+  reviewerIds: [ID!]
+}
+
+input ResearcherInput {
+  name: String!
+  emails: [String!]
+  title: String!
+  affiliation: String!
+  articleIds: [ID!]
+}
+
+input ResearcherPatch {
+  name: String!
+  emails: [String!]
+  title: String!
+  affiliation: String!
+  articleIds: [ID!]
+}
+
+input ReviewerInput {
+  title: String!
+  name: String!
+  affiliation: String!
+  emails: [String!]
+  attendedArticleIds: [ID!]
+  reviewIds: [ID!]
+}
+
+input ReviewInput {
+  title: String!
+  rating: Int!
+  content: String!
+  decision: Decision!
+  reviewerId: ID!
+  articleId: ID!
+}
+
+input ReviewPatch {
+  title: String!
+  rating: Int!
+  content: String!
+  decision: Decision!
+  reviewerId: ID!
+  articleId: ID!
+}
+
+# --------------------------------------
+#  Queries
+# --------------------------------------
+type Query {
+  # Read-only access to all / single entities
+  articles: [Article!]!
+  article(id: ID!): Article
+
+  researchers: [Researcher!]!
+  researcher(id: ID!): Researcher
+
+  reviewers: [Reviewer!]!
+  reviewer(id: ID!): Reviewer
+
+  reviews: [Review!]!
+  review(id: ID!): Review
+}
+
+# --------------------------------------
+#  Mutations
+# --------------------------------------
+type Mutation {
+  # Article
+  createArticle(input: ArticleInput!): Article!
+  updateArticle(id: ID!, input: ArticlePatch!): Article!
+  deleteArticle(id: ID!): Boolean!
+
+  # Researcher
+  createResearcher(input: ResearcherInput!): Researcher!
+  updateResearcher(id: ID!, patch: ResearcherPatch!): Researcher!
+  deleteResearcher(id: ID!): Boolean!
+
+  # Reviewer
+  createReviewer(input: ReviewerInput!): Reviewer!
+  updateReviewer(id: ID!, input: ReviewerInput!): Reviewer!
+  deleteReviewer(id: ID!): Boolean!
+
+  # Review
+  createReview(input: ReviewInput!): Review!
+  updateReview(id: ID!, patch: ReviewPatch!): Review!
+  deleteReview(id: ID!): Boolean!
+
+  # Optional helper mutations to manage many-to-many links
+  addArticleToResearcher(researcherId: ID!, articleId: ID!): Researcher!
+  removeArticleFromResearcher(researcherId: ID!, articleId: ID!): Researcher!
+
+  addArticleToReviewer(reviewerId: ID!, articleId: ID!): Reviewer!
+  removeArticleFromReviewer(reviewerId: ID!, articleId: ID!): Reviewer!
+}
